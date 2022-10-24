@@ -1,0 +1,3 @@
+CREATE DATABASE mydb4;
+USE mydb4;
+SHOW CREATE TABLE Movie;
