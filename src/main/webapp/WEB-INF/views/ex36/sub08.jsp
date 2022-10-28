@@ -10,19 +10,26 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 </head>
 <body>
+	<c:if test="${not empty message }">
+		<div>
+			${message }
+		</div>
+	</c:if>
 	<h1>공급자 정보 입력하기</h1>
 	<form action="" method="post">
-		<input type="text" placeholder="이름" value="son" name="name">
+		<input type="text" name="name" value="Park">
 		<br>
-		<input type="text" placeholder="계약명" value="HM" name="contactName">
+		<input type="text" name="contactName" value="ji sung">
 		<br>
-		<input type="text" placeholder="주소" value="gangnam" name="address">
+		<input type="text" name="address" value="gangnam">
 		<br>
-		<input type="text" placeholder="도시" value="seoul" name="city">
+		<input type="text" name="city" value="seoul">
 		<br>
-		<input type="text" placeholder="우편번호" value="1111" name="postalCode">
+		<input type="text" name="postalCode" value="33333">
 		<br>
-		<input type="text" placeholder="국가" value="Korea" name="country">
+		<input type="text" name="country" value="Korea">
+		<br>
+		<input type="text" name="phone" value="010-9999">
 		<br>
 		<input type="submit" value="등록">
 	</form>
