@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.domain.board.BoardDto;
 import org.zerock.service.board.BoardService;
 
@@ -26,11 +26,16 @@ public class BoardController {
 	}
 	
 	@PostMapping("register")
-	public String register(BoardDto board) {
+	public String register(BoardDto board, RedirectAttributes rttr) {
 		// request param 수집 가공
 		
 		// business logic - Service
-		service.register(board);
+		int cnt = service.register(board);
+		if(cnt == 1) {
+			rttr.addFlashAttribute("message", "새 게시물이 등록되었습니다.");
+		} else {
+			rttr.addFlashAttribute("message", "새 게시물이 등록되었습니다.");
+		}
 		
 		// /boar/list로 redirect
 		return "redirect:/board/list";
@@ -65,14 +70,25 @@ public class BoardController {
 	}
 	
 	@PostMapping("modify")
-	public String modify(BoardDto board) {
-		service.update(board);
+	public String modify(BoardDto board, RedirectAttributes rttr) {
+		int cnt = service.update(board);
+		if(cnt == 1) {
+			rttr.addFlashAttribute("message", board.getId() + "번 게시물이 수정되었습니다.");
+		} else {
+			rttr.addFlashAttribute("message", board.getId() + "번 게시물이 수정되지 않았습니다.");
+		}
 		return "redirect:/board/list";
 	}
 	
 	@PostMapping("remove")
-	public String remove(int id) {
-		service.remove(id);
+	public String remove(int id, RedirectAttributes rttr) {
+		int cnt = service.remove(id);
+		if(cnt == 1) {
+			rttr.addFlashAttribute("message", id + "번 게시물이 삭제되었습니다.");
+		} else {
+			rttr.addFlashAttribute("message", id + "번 게시물이 삭제되지 않았습니다.");
+		}
+		
 		return "redirect:/board/list";
 	}
 }
