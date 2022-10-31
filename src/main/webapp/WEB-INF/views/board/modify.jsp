@@ -12,25 +12,46 @@
 </head>
 <body>
 	<my:navBar></my:navBar>
-	<h1>${board.id }번 게시물 수정</h1>
-	<form id="modifyForm" action="" method="post">
-		<input type="hidden" name="id" value="${board.id }">
-		제목 <input type="text" name="title" value="${board.title }"> <br>
-		본문 <textarea name="content">${board.content }</textarea> <br>
-		작성자 <input type="text" name="writer" value="${board.writer }"> <br>
-		작성일시 <input type="datetime-local" value="${board.inserted }" readonly> <br>
-	</form>
-	<input type="submit" value="수정" data-bs-toggle="modal" data-bs-target="#modifyModal">
-	
-	<c:url value="/board/remove" var="removeLink" />
-	<form action="${removeLink }" method="post">
-		<input type="hidden" name="id" value="${board.id }">
-		<input type="submit" value="삭제">		
-	</form>
+	<div class="container-md">
+		<div class="row">
+			<div class="col">
+
+				<h1>${board.id }번 게시물 수정</h1>
+
+				<form id="modifyForm" action="" method="post">
+					<input type="hidden" name="id" value="${board.id }">
+					<!-- .mb-3*4>label.form-label+input.form-control -->
+					<div class="mb-3">
+						<label for="" class="form-label">제목</label>
+						<input type="text" name="title" class="form-control" value="${board.title }">
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">본문</label>
+						<textarea rows="5" name="content" class="form-control">${board.content }</textarea>
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">작성자</label>
+						<input type="text" name="writer" class="form-control" value="${board.writer }">
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">작성일시</label>
+						<input type="text" class="form-control" value="${board.inserted }" readonly>
+					</div>
+				</form>
+				<input class="btn btn-warning" type="submit" value="수정" data-bs-toggle="modal" data-bs-target="#modifyModal">
+				<input class="btn btn-danger" type="submit" value="삭제" data-bs-toggle="modal" data-bs-target="#removeModal">
+
+				<c:url value="/board/remove" var="removeLink"/>
+				<form id="removeForm" action="${removeLink }" method="post">
+					<input type="hidden" name="id" value="${board.id }">
+				</form>
+
+			</div>
+		</div>
+	</div>	
 	
 	<!-- modify Modal -->
-	<div class="modal fade" id="modifyModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -48,11 +69,36 @@
 		</div>
 	</div>
 
+	<!-- remove Modal -->
+	<div class="modal fade" id="removeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">삭제 확인</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					삭제하시겠습니까?
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+					<button id="removeConfirmButton" type="button" class="btn btn-danger">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
 <script>
+	//수정확인 버튼 클릭하면 수정 form 전송
 	document.querySelector("#modifyConfirmButton").addEventListener("click", function() {
 		document.querySelector("#modifyForm").submit();
+	});
+	
+	// 삭제확인 버튼 클릭하면 삭제 form 전송
+	document.querySelector("#removeConfirmButton").addEventListener("click", function() {
+		document.querySelector("#removeForm").submit();
 	});
 </script>
 </body>
