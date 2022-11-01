@@ -49,11 +49,13 @@ public class BoardController {
 	@GetMapping("list")
 	public void list(
 			@RequestParam(name = "page", defaultValue = "1") int page,
+			@RequestParam(name = "t", defaultValue = "all") String type,
+			@RequestParam(name = "q", defaultValue = "") String keyword,
 			PageInfo pageInfo,
 			Model model) {
 		// request param 수집 가공
 		// business logic
-		List<BoardDto> list = service.listBoard(page, pageInfo);
+		List<BoardDto> list = service.listBoard(page, type, keyword, pageInfo);
 		
 		// add attribute
 		model.addAttribute("boardList", list);
@@ -61,6 +63,7 @@ public class BoardController {
 	}
 	
 	// 위 list 메소드 파라미터 PageInfo에 일어나는 일을 풀어서 작성
+	/*
 	private void list2(
 			@RequestParam(name = "page", defaultValue = "1") int page,
 			HttpServletRequest request,
@@ -69,14 +72,15 @@ public class BoardController {
 		PageInfo pageInfo = new PageInfo();
 		pageInfo.setLastPageNumber(Integer.parseInt(request.getParameter("lastPageNumber")));
 		model.addAttribute("pageInfo", pageInfo);
-
+		
 		// business logic
 		List<BoardDto> list = service.listBoard(page, pageInfo);
-
+		
 		// add attribute
 		model.addAttribute("boardList", list);
 		// forward
 	}
+	*/
 	
 	@GetMapping("get")
 	public void get(int id, Model model) { // @RequestParam(name="id") 생략 가능
