@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.zerock.domain.board.BoardDto;
+import org.zerock.domain.board.PageInfo;
 import org.zerock.mapper.board.BoardMapper;
 
 @Service
@@ -17,9 +18,18 @@ public class BoardService {
 		return mapper.insert(board);
 	}
 
-	public List<BoardDto> listBoard() {
-		return mapper.list();
+	public List<BoardDto> listBoard(int page, PageInfo pageInfo) {
+		int records = 10;
+		int offset = (page - 1) * records;
+		
+		int countAll = mapper.countAll(); // SELECT Count(*) FROM Board
+		int lastPage = (countAll - 1) / records + 1;
+
+		pageInfo.setLastPageNumber(lastPage);
+		
+		return mapper.list(offset, records);
 	}
+
 
 	public BoardDto get(int id) {
 		return mapper.select(id);
