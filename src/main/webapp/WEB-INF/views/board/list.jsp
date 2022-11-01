@@ -57,11 +57,16 @@
 			<div class="col">
 				<nav aria-label="Page navigation example">
 					<ul class="pagination">
-						<c:forEach begin="1" end="${pageInfo.lastPageNumber }" var="pageNumber">
+						<c:forEach begin="${pageInfo.leftPageNumber }" end="${pageInfo.rightPageNumber  }" var="pageNumber">
 							<c:url value="/board/list" var="listLink">
 								<c:param name="page" value="${pageNumber }" />
 							</c:url>
-							<li class="page-item"><a class="page-link" href="${listLink }">${pageNumber }</a></li>
+							<li class="page-item
+					    
+					    	<%-- 현재페이지에 active 클래스 추가 --%>
+					    	${pageInfo.currentPageNumber eq pageNumber ? 'active' : '' }
+					    
+					    	"><a class="page-link" href="${listLink }">${pageNumber }</a></li>
 						</c:forEach>
 					</ul>
 				</nav>
