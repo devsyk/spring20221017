@@ -34,21 +34,22 @@
 	<button id="btn10">/ex44/sub04 post 요청 obj -> json</button>
 	<br><br>
 	
+	<button id="btn11">/ex44/sub03 post 요청 form -> obj -> json</button>
 	<form action="" id="form1">
 		<input type="text" name="name" id="nameInput1">
 		<input type="text" name="address" id="addressInput1">
 	</form>
-	<button id="btn11">/ex44/sub03 post 요청 form -> obj -> json</button>
 	<br><br>
 	
+	<button id="btn12">/ex44/sub06 post 요청 form -> obj -> json</button>
 	<form action="" id="form2">
 		<input type="text" name="name" id="nameInput2" value="박지성">
 		<input type="text" name="location" id="locationInput2" value="london">
 		<input type="text" name="since" id="sinceInput2" value="2000년">
 	</form>
-	<button id="btn12">/ex44/sub06 post 요청 form -> obj -> json</button>
 	<br><br>
 	
+	<button id="btn13">/ex44/sub04 post 요청 form -> obj -> json</button>
 	<form action="" id="form3">
 		age<input type="number" id="ageInput3" value="55"><br>
 		name<input type="text" id="nameInput3" value="손흥민"><br>
@@ -57,12 +58,32 @@
 		food:햄버거<input type="checkbox" class="foodCheckbox3" value="햄버거"><br>
 		food:커피<input type="checkbox" class="foodCheckbox3" value="커피">
 	</form>
-	<button id="btn13">/ex44/sub04 post 요청 form -> obj -> json</button>
+	<br><br>
+	
+	<button id="btn14">/ex44/sub14 post json + 날짜(date)</button>
+	<input type="text" id="nameInput14"><br>
+	<input type="date" id="dateInput14"><br>
+	<input type="datetime-local" id="dateTimeInput14">
 	
 	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script>
 	const ctx = "${pageContext.request.contextPath}";
+	
+	document.querySelector("#btn14").addEventListener("click", function() {
+		const name = document.querySelector("#nameInput14").value;
+		const date = document.querySelector("#dateInput14").value;
+		const dateTime = document.querySelector("#dateTimeInput14").value;
+		const obj = {name, date, dateTime};
+		
+		fetch(ctx + "/ex44/sub14", {
+			method : "post",
+			headers : {
+				"Content-Type" : "application/json"
+			},
+			body : JSON.stringify(obj)
+		});
+	});
 	
 	document.querySelector("#btn13").addEventListener("click", function() {
 		const age = document.querySelector("#ageInput3").value;

@@ -9,6 +9,7 @@ import org.zerock.domain.lecture.JavaBean21;
 import org.zerock.domain.lecture.JavaBean22;
 import org.zerock.domain.lecture.JavaBean23;
 import org.zerock.domain.lecture.JavaBean25;
+import org.zerock.domain.lecture.JavaBean27;
 
 @Controller
 @RequestMapping("ex44")
@@ -55,6 +56,11 @@ public class Controller44 {
 	
 	@PostMapping("sub07")
 	public void method7(@RequestBody JavaBean25 data) {
+		System.out.println(data);
+	}
+	
+	@PostMapping("sub14")
+	public void method14(@RequestBody JavaBean27 data) {
 		System.out.println(data);
 	}
 }
