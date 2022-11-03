@@ -5,6 +5,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.zerock.domain.lecture.JavaBean20;
+import org.zerock.domain.lecture.JavaBean21;
+import org.zerock.domain.lecture.JavaBean22;
+import org.zerock.domain.lecture.JavaBean23;
+import org.zerock.domain.lecture.JavaBean25;
 
 @Controller
 @RequestMapping("ex44")
@@ -31,6 +35,26 @@ public class Controller44 {
 	@PostMapping("sub03")
 	public void mehtod3(@RequestBody JavaBean20 data) {
 		System.out.println("3번 메소드 일함");
+		System.out.println(data);
+	}
+
+	@PostMapping("sub04")
+	public void method4(@RequestBody JavaBean21 data) {
+		System.out.println(data);
+	}
+
+	@PostMapping("sub05")
+	public void method5(@RequestBody JavaBean22 data) {
+		System.out.println(data);
+	}
+
+	@PostMapping("sub06")
+	public void method6(@RequestBody JavaBean23 data) {
+		System.out.println(data);
+	}
+	
+	@PostMapping("sub07")
+	public void method7(@RequestBody JavaBean25 data) {
 		System.out.println(data);
 	}
 }
