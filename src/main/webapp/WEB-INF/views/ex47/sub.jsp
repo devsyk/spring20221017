@@ -9,10 +9,21 @@
 <title>Insert title here</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+	#messageDiv {
+		padding : 15px;
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		background-color: yellow;
+		border: 5px solid black;
+		font-weight: bold;
+	}
+</style>
 </head>
 <body>
 	<h1>json 응답처리</h1>
-	
+	<div id="messageDiv"></div>
 	<button id="btn1">/ex47/sub01 json 응답</button>
 	<br>
 	<button id="btn2">/ex47/sub02 json 응답</button>
@@ -43,7 +54,6 @@
 		city : <span class="city"></span> <br>
 		country : <span class="country"></span>
 	</div>
-	<div id="messageDiv"></div>
 	<br>
 	
 	<input type="number" placeholder="공급자ID" id="supplierIdInput8" value="1">
@@ -55,15 +65,156 @@
 		city : <span class="city"></span> <br>
 		country : <span class="country"></span>
 	</div>
-	<div id="messageDiv2"></div>
+	<br>
 	
+	<button id="btn10">/ex47/sub10 put 요청 : 고객정보 update</button>
+	<br><br>
+	
+	<input type="text" id="idInput11"><br>
+	<input type="text" id="nameInput11"><br>
+	<input type="text" id="contactNameInput11"><br>
+	<input type="text" id="addressInput11"><br>
+	<input type="text" id="cityInput11"><br>
+	<input type="text" id="postalCodeInput11"><br>
+	<input type="text" id="countryInput11"><br>
+	<input type="text" id="phoneInput11"><br>
+	<button id="btn11">/ex47/sub11 put 요청 : 공급자정보 update</button>
+	<br><br>
+	
+	<button id="btn12">/ex47/sub12 post 요청 : 고객정보 insert</button>
+	<br><br>
+	
+	<button id="btn13">/ex47/sub13 post 요청 : 공급자정보 insert</button>
+	<br><br>
+	
+	<button id="btn14">/ex47/sub14 delete 요청 : 고객정보 delete</button>
+	<br><br>
+	
+	<button id="btn15">/ex47/sub15 delete 요청 : 공급자정보 delete</button>
 	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script>
 	const ctx = "${pageContext.request.contextPath}"
 	
+	document.querySelector("#btn15").addEventListener("click", function() {
+		const id = document.querySelector("#supplierIdInput11").value;
+		fetch(ctx + "/ex47/sub15/" + id, {
+			method : "delete"
+		})
+		.then(res => res.json())
+		.then(data => {
+			document.querySelector("#messageDiv").innerText = data.message;
+		});
+	});
+	
+	document.querySelector("#btn14").addEventListener("click", function() {
+		fetch(ctx + "/ex47/sub14/96", {
+			method : "delete"
+		})
+		.then(res => res.json())
+		.then(data => {
+			document.querySelector("#messageDiv").innerText = data.message;
+		});
+	});
+	
+	document.querySelector("#btn13").addEventListener("click", function() {
+		const name = document.querySelector("#supplierNameInput11").value;
+		const contactName = document.querySelector("#supplierContactNameInput11").value;
+		const address = document.querySelector("#supplierAddressInput11").value;
+		const postalCode = document.querySelector("#supplierPostalCodeInput11").value;
+		const country = document.querySelector("#supplierCountryInput11").value;
+		const phone = document.querySelector("#supplierPhoneInput11").value;
+		const city = document.querySelector("#supplierCityInput11").value;
+		
+		const data = {name, contactName, address, postalCode, country, phone, city};
+		fetch(ctx + "/ex47/sub13", {
+			method : "post",
+			headers : {
+				"Content-Type" : "application/json"
+			}, 
+			body : JSON.stringify(data)
+		})
+		.then(res => res.json())
+		.then(data => {
+			document.querySelector("#messageDiv").innerText = data.message;
+		});
+	});
+	
+	document.querySelector("#btn12").addEventListener("click", function() {
+		const data = {
+			name : "차범근",
+			contanctName : "cha bum",
+			address : "berlin",
+			city : "jeju",
+			postalCode : "222",
+			country : "korea"
+		};
+		
+		fetch(ctx + "/ex47/sub12", {
+			method : "post",
+			headers : {
+				"Content-Type" : "application/json"
+			}, 
+			body : JSON.stringify(data)
+		})
+		.then(res => res.json())
+		.then(data => {
+			document.querySelector("#messageDiv").innerText = data.message;
+		});
+	});
+	
+	document.querySelector("#btn11").addEventListener("click", function() {
+		const data = {
+				id : document.querySelector("#idInput11").value,
+				name : document.querySelector("#nameInput11").value,
+				contactName : document.querySelector("#contactNameInput11").value,
+				address : document.querySelector("#addressInput11").value,
+				city : document.querySelector("#cityInput11").value,
+				postalCode : document.querySelector("#postalCodeInput11").value,
+				country : document.querySelector("#countryInput11").value,
+				phone : document.querySelector("#phoneInput11").value
+		};
+		
+		fetch(ctx + "/ex47/sub11", {
+			method : "put",
+			headers : {
+				"Content-Type" : "application/json"
+			},
+			body : JSON.stringify(data)
+		})
+		.then(res => res.json())
+		.then(data => {
+			document.querySelector("#messageDiv").innerText = data.message;
+		});
+	});
+	
+	document.querySelector("#btn10").addEventListener("click", function() {
+		const data = {
+				id : 1,
+				name : "박지성",
+				contactName : "park",
+				address : "london",
+				city : "london",
+				postalCode : "33333",
+				country : "korea"
+		};
+		
+		fetch(ctx + "/ex47/sub10", {
+			method : "put",
+			headers : {
+				"Content-Type" : "application/json"
+			},
+			body : JSON.stringify(data)
+		})
+		.then(res => res.json())
+		.then(data => {
+			document.querySelector("#messageDiv").innerText = data.message;
+		});
+		
+	});
+	
 	document.querySelector("#btn9").addEventListener("click", function() {
-		document.querySelector("#messageDiv2").innerText = "";
+		document.querySelector("#messageDiv").innerText = "";
 		document.querySelector("#supplierInfoDiv .id").innerText = "";
 		document.querySelector("#supplierInfoDiv .name").innerText = "";
 		document.querySelector("#supplierInfoDiv .city").innerText = "";
@@ -73,11 +224,11 @@
 		fetch(ctx + "/ex47/sub09/" + supplierId)
 		.then(res => res.json())
 		.then(data => {
-			document.querySelector("#messageDiv2").innerText = data.message;
-			document.querySelector("#supplierInfoDiv .id").innerText = data.customer.id;
-			document.querySelector("#supplierInfoDiv .name").innerText = data.customer.name;
-			document.querySelector("#supplierInfoDiv .city").innerText = data.customer.city;
-			document.querySelector("#supplierInfoDiv .country").innerText = data.customer.country;
+			document.querySelector("#messageDiv").innerText = data.message;
+			document.querySelector("#supplierInfoDiv .id").innerText = data.supplier.id;
+			document.querySelector("#supplierInfoDiv .name").innerText = data.supplier.name;
+			document.querySelector("#supplierInfoDiv .city").innerText = data.supplier.city;
+			document.querySelector("#supplierInfoDiv .country").innerText = data.supplier.country;
 		});
 	});
 	
