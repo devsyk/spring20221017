@@ -83,10 +83,13 @@
 		fetch(`\${ctx}/reply/list/\${boardId}`)
 		.then(res => res.json())
 		.then(list => {
+			const replyListContainer = document.querySelector("#replyListContainer");
+			replyListContainer.innerHTML = "";
+			
 			for (const item of list) {
 				// console.log(item.id);
 				const replyDiv = `<div>\${item.content} : \${item.inserted}</div>`;
-				document.querySelector("#replyListContainer").insertAdjacentHTML("beforeend", replyDiv);
+				replyListContainer.insertAdjacentHTML("beforeend", replyDiv);
 			}
 		})
 	}
@@ -105,8 +108,10 @@
 		})
 		.then(res => res.json())
 		.then(data => {
+			document.querySelector("#replyInput1").value = "";
 			document.querySelector("#replyMessage1").innerText = data.message;
-		});
+		})
+		.then(() => listReply());
 	});
 	
 </script>
