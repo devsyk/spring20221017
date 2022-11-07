@@ -25,5 +25,13 @@ public class ReplyService {
 	public int removeById(int id) {
 		return mapper.delete(id);
 	}
+	
+	public ReplyDto getById(int id) {
+		return mapper.selectById(id);
+	}
+
+	public int modify(ReplyDto reply) {
+		return mapper.update(reply);
+	}
 
 }

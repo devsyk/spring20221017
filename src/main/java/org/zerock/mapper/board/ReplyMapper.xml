@@ -29,4 +29,24 @@
 		WHERE id = #{id}
 	</delete>
 	
+	<select id="selectById" resultType="org.zerock.domain.board.ReplyDto">
+		SELECT
+			id,
+			boardId,
+			content,
+			inserted
+		FROM
+			Reply
+		WHERE
+			id = #{id}
+	</select>
+	
+	<update id="update">
+		UPDATE Reply
+		SET
+			content = #{content}
+		WHERE 
+			id = #{id}
+	</update>
+	
 </mapper>
