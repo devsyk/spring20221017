@@ -29,3 +29,13 @@ FROM Board
 ORDER BY id DESC
 LIMIT 20, 10; -- ?1 : 어디서부터(0-base), 
               -- ?2 : 몇 개
+              
+-- 댓글 테이블 만들기
+CREATE TABLE Reply (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	boardId INT NOT NULL,
+    content VARCHAR(1000) NOT NULL,
+    inserted DATETIME DEFAULT NOW(),
+    FOREIGN KEY (boardId) REFERENCES Board(id)
+); 
+DESC Reply;
