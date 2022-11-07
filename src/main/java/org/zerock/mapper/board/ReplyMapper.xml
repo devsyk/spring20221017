@@ -24,4 +24,9 @@
 		VALUES (#{boardId}, #{content})
 	</insert>
 	
+	<delete id="delete">
+		DELETE FROM Reply 
+		WHERE id = #{id}
+	</delete>
+	
 </mapper>

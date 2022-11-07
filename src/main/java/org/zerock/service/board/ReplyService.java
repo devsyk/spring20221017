@@ -22,4 +22,8 @@ public class ReplyService {
 		return mapper.selectReplyByBoardId(boardId);
 	}
 
+	public int removeById(int id) {
+		return mapper.delete(id);
+	}
+
 }

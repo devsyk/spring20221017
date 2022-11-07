@@ -10,4 +10,6 @@ public interface ReplyMapper {
 
 	List<ReplyDto> selectReplyByBoardId(int boardId);
 
+	int delete(int id);
+
 }
