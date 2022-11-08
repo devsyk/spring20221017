@@ -29,26 +29,26 @@
 					<c:url value="/board/modify" var="modifyLink">
 						<c:param name="id" value="${board.id }"></c:param>
 					</c:url>
-					<a class="btn btn-warning" href="${modifyLink }"> <i
-						class="fa-solid fa-pen-to-square"></i>
+					<a class="btn btn-warning" href="${modifyLink }"> 
+					<i class="fa-solid fa-pen-to-square"></i>
 					</a>
 				</h1>
 
 				<div class="mb-3">
-					<label class="form-label">제목</label> <input class="form-control"
-						type="text" value="${board.title }" readonly>
+					<label class="form-label">제목</label> 
+					<input class="form-control" type="text" value="${board.title }" readonly>
 				</div>
 				<div class="mb-3">
 					<label class="form-label">본문</label>
 					<textarea class="form-control" rows="5" readonly>${board.content }</textarea>
 				</div>
 				<div class="mb-3">
-					<label class="form-label">작성자</label> <input class="form-control"
-						type="text" value="${board.writer }" readonly>
+					<label class="form-label">작성자</label> 
+					<input class="form-control" type="text" value="${board.writer }" readonly>
 				</div>
 				<div class="mb-3">
-					<label class="form-label">작성일시</label> <input class="form-control"
-						type="datetime-local" value="${board.inserted }" readonly>
+					<label class="form-label">작성일시</label> 
+					<input class="form-control" type="datetime-local" value="${board.inserted }" readonly>
 				</div>
 
 			</div>
@@ -72,18 +72,27 @@
 	<div class="container-md">
 		<div class="row">
 			<div class="col">
-				<input type="hidden" id="boardId" value="${board.id }"> <input
-					type="text" id="replyInput1">
-				<button id="replySendButton1">댓글쓰기</button>
+				<h3><i class="fa-solid fa-comments"></i></h3>
 			</div>
 		</div>
-	</div>
-
-	<div class="row">
-		<div class="col">
-			<div id="replyListContainer"></div>
+		<div class="row">
+			<div class="col">
+				<%-- 댓글 작성 --%>
+				<input type="hidden" id="boardId" value="${board.id }"> 
+				<div class="input-group">
+					<input type="text" class="form-control" id="replyInput1">
+					<button class="btn btn-outline-secondary" id="replySendButton1"><i class="fa-solid fa-reply"></i></button>
+				</div>				
+			</div>
 		</div>
-	</div>
+		<div class="row mt-3">
+			<div class="col">
+				<div class="list-group" id="replyListContainer">
+					<%-- 댓글 리스트 출력되는 곳 --%>
+				</div>
+			</div>
+		</div>
+	</div>	
 
 	<%-- 댓글 삭제 확인 모달 --%>
 	<!-- Modal -->
@@ -182,10 +191,23 @@
 				const removeReplyButtonId = `removeReplyButton\${item.id}`;
 				// console.log(item.id);
 				const replyDiv = `
-					<div>
-						\${item.content} : \${item.inserted}
-						<button data-bs-toggle="modal" data-bs-target="#modifyReplyFormModal" data-reply-id="\${item.id}" id="\${modifyReplyButtonId}">수정</button>
-						<button data-bs-toggle="modal" data-bs-target="#removeReplyConfirmModal" data-reply-id="\${item.id}" id="\${removeReplyButtonId}">삭제</button>
+					<div class="list-group-item d-flex">
+						<div class="me-auto">
+							<div>
+								\${item.content}
+							</div>
+								<small>
+									\${item.inserted}
+								</small>
+						</div>
+						<div>
+							<button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modifyReplyFormModal" data-reply-id="\${item.id}" id="\${modifyReplyButtonId}">
+								<i class="fa-solid fa-pen"></i>
+							</button>
+							<button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#removeReplyConfirmModal" data-reply-id="\${item.id}" id="\${removeReplyButtonId}">
+								<i class="fa-solid fa-x"></i>
+							</button>
+						</div>
 					</div>`;
 					
 				replyListContainer.insertAdjacentHTML("beforeend", replyDiv);
