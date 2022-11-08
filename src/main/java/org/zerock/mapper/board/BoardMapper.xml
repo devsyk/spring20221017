@@ -58,9 +58,14 @@
 	
 	<select id="select" resultType="org.zerock.domain.board.BoardDto">
 		SELECT 
-			id, title, content, writer, inserted		
-		FROM Board
-		WHERE id = #{id}
+			b.id, 
+			b.title, 
+			b.content, 
+			b.writer, 
+			b.inserted, 
+			f.name fileName		
+		FROM Board b LEFT JOIN File f ON b.id = f.boardId
+		WHERE b.id = #{id}
 	</select>
 	
 	<update id="update">

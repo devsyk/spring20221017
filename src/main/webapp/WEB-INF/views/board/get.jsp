@@ -42,6 +42,10 @@
 					<label class="form-label">본문</label>
 					<textarea class="form-control" rows="5" readonly>${board.content }</textarea>
 				</div>
+				<%-- 이미지 출력 --%>
+				<div>
+					<img src="/image/${board.id }/${board.fileName}" alt="">
+				</div>
 				<div class="mb-3">
 					<label class="form-label">작성자</label> 
 					<input class="form-control" type="text" value="${board.writer }" readonly>
