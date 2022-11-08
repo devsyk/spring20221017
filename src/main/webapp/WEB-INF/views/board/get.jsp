@@ -196,9 +196,9 @@
 							<div>
 								\${item.content}
 							</div>
-								<small>
-									\${item.inserted}
-								</small>
+							<small>
+								\${item.ago}
+							</small>
 						</div>
 						<div>
 							<button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#modifyReplyFormModal" data-reply-id="\${item.id}" id="\${modifyReplyButtonId}">
