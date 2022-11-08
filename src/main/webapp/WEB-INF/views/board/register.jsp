@@ -19,17 +19,21 @@
 			
 				<h1>게시물 작성</h1>
 				
-				<form action="" method="post">
+				<form action="" method="post" enctype="multipart/form-data">
 					<div class="mb-3">
-						<label class="form-label">제목</label>
+						<label for="" class="form-label">제목</label>
 						<input class="form-control" type="text" name="title">
 					</div>
 					<div class="mb-3">
-						<label class="form-label">본문</label>
+						<label for="" class="form-label">본문</label>
 						<textarea class="form-control" rows="5" name="content">${board.content }</textarea>
 					</div>
 					<div class="mb-3">
-						<label class="form-label">작성자</label>
+						<label for="" class="form-label">파일</label>
+						<input type="file" accept="image/*" class="form-control" name="file">
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">작성자</label>
 						<input class="form-control" type="text" name="writer">
 					</div>
 					<input class="btn btn-primary" type="submit" value="등록">
