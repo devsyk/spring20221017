@@ -39,3 +39,17 @@ CREATE TABLE Reply (
     FOREIGN KEY (boardId) REFERENCES Board(id)
 ); 
 DESC Reply;
+SELECT * FROM Reply Order BY 1 DESC;
+
+-- 댓글 수가 결과로 같이 나오는 Board Table 조회 쿼리
+SELECT 
+	b.id, 
+    b.title, 
+    b.content, 
+    b.writer, 
+    b.inserted,
+	count(r.id) AS countReply
+FROM Board b
+	LEFT OUTER JOIN Reply r ON b.id = r.boardId
+GROUP BY id
+ORDER BY id DESC;
