@@ -31,7 +31,7 @@ public class BoardController {
 	@PostMapping("register")
 	public String register(
 			BoardDto board,
-			MultipartFile file,
+			MultipartFile[] files,
 			RedirectAttributes rttr) {
 		/*
 		 * 파일 업로드
@@ -43,10 +43,13 @@ public class BoardController {
 		 */
 		
 		// request param 수집 가공
-		System.out.println(file.getOriginalFilename());
+//		System.out.println(files.length);
+//		for (MultipartFile file : files) {
+//			System.out.println(file.getOriginalFilename());
+//		}
 		
 		// business logic - Service
-		int cnt = service.register(board, file);
+		int cnt = service.register(board, files);
 		if(cnt == 1) {
 			rttr.addFlashAttribute("message", "새 게시물이 등록되었습니다.");
 		} else {
