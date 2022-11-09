@@ -15,6 +15,7 @@ import org.zerock.mapper.board.BoardMapper;
 import org.zerock.mapper.board.ReplyMapper;
 
 @Service
+@Transactional
 public class BoardService {
 	
 	@Autowired
@@ -23,7 +24,6 @@ public class BoardService {
 	@Autowired
 	private ReplyMapper replyMapper;
 	
-	@Transactional
 	public int register(BoardDto board, MultipartFile[] files) {
 		// DB에 게시물 정보 저장
 		int cnt = boardMapper.insert(board);
@@ -91,11 +91,54 @@ public class BoardService {
 		return boardMapper.select(id);
 	}
 
-	public int update(BoardDto board) {
+	public int update(BoardDto board, MultipartFile[] addFiles, List<String> removeFiles) {
+		int boardId = board.getId();
+		
+		// 기존 파일 삭제
+		if (removeFiles != null) {
+			for (String fileName : removeFiles) {
+				// DB(File 테이블)에서 삭제할 파일 정보 삭제
+				boardMapper.deleteFileByBoardIdAndFileName(boardId, fileName);
+				
+				// 저장소에 실제 파일 저장
+				String path = "C:\\Users\\user\\Desktop\\study\\upload\\prj1\\board\\" + boardId + "\\" + fileName;
+				File file = new File(path); 
+				
+				file.delete();
+			}
+		}
+		
+		// 파일 추가 업로드
+		for (MultipartFile file : addFiles) {
+			if (file != null && file.getSize() > 0) {
+				String name = file.getOriginalFilename();
+				
+				// DB(File 테이블)에서 해당 파일명 삭제 - 중복 파일명 업로드 방지
+				boardMapper.deleteFileByBoardIdAndFileName(boardId, name);
+				
+				// 추가 파일 정보 저장
+				boardMapper.insertFile(boardId, name);
+				
+				// 저장소에 실제 파일 저장
+				File folder = new File("C:\\Users\\user\\Desktop\\study\\upload\\prj1\\board\\" + board.getId());
+				folder.mkdirs();
+				
+				File dest = new File(folder, name);
+				
+				try {
+					file.transferTo(dest);
+				} catch (Exception e) {
+					// @Transactional은 RuntimeException에서만 rollback 됨
+					e.printStackTrace();
+					throw new RuntimeException(e);
+				}
+			}
+		}
+		
+		// DB에 게시물 정보 수정
 		return boardMapper.update(board);
 	}
 	
-	@Transactional
 	public int remove(int id) {
 		// 저장소의 파일 지우기
 		String path = "C:\\Users\\user\\Desktop\\study\\upload\\prj1\\board\\" + id;

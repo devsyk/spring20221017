@@ -5,6 +5,11 @@
   
 <mapper namespace="org.zerock.mapper.board.BoardMapper">
 	
+	<delete id="deleteFileByBoardIdAndFileName">
+		DELETE FROM File
+		WHERE boardId = #{id} AND name = #{fileName}
+	</delete>
+	
 	<delete id="deleteFileByBoardId">
 		DELETE FROM File
 		WHERE boardId = #{id}
