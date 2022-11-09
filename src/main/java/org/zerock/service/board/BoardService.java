@@ -33,7 +33,7 @@ public class BoardService {
 				// DB에 파일 정보 저장
 				boardMapper.insertFile(board.getId(), file.getOriginalFilename());
 				
-				// 파일 저장
+				// 저장소에 실제 파일 저장
 				// boardId 이름의 새 폴더 만들기
 				File folder = new File("C:\\Users\\user\\Desktop\\study\\upload\\prj1\\board\\" + board.getId());
 				folder.mkdirs();
@@ -100,7 +100,7 @@ public class BoardService {
 				// DB(File 테이블)에서 삭제할 파일 정보 삭제
 				boardMapper.deleteFileByBoardIdAndFileName(boardId, fileName);
 				
-				// 저장소에 실제 파일 저장
+				// 저장소에 실제 파일 삭제
 				String path = "C:\\Users\\user\\Desktop\\study\\upload\\prj1\\board\\" + boardId + "\\" + fileName;
 				File file = new File(path); 
 				
@@ -113,7 +113,7 @@ public class BoardService {
 			if (file != null && file.getSize() > 0) {
 				String name = file.getOriginalFilename();
 				
-				// DB(File 테이블)에서 해당 파일명 삭제 - 중복 파일명 업로드 방지
+				// DB(File 테이블)에서 해당 파일명 정보 삭제 - 중복 파일명 업로드 방지
 				boardMapper.deleteFileByBoardIdAndFileName(boardId, name);
 				
 				// 추가 파일 정보 저장
@@ -140,7 +140,7 @@ public class BoardService {
 	}
 	
 	public int remove(int id) {
-		// 저장소의 파일 지우기
+		// 저장소에서 실제 파일 삭제
 		String path = "C:\\Users\\user\\Desktop\\study\\upload\\prj1\\board\\" + id;
 		File folder = new File(path);
 		
@@ -152,7 +152,7 @@ public class BoardService {
 		
 		folder.delete();
 
-		// db 파일 records 지우기
+		// DB에서 파일 정보 삭제
 		boardMapper.deleteFileByBoardId(id);
 
 		// 게시물 댓글 삭제
