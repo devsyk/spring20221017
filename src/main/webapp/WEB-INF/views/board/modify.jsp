@@ -92,7 +92,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1 class="modal-title fs-5" id="exampleModalLabel">수정 확인</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button id="modifyCloseButton" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
 					수정하시겠습니까?
@@ -128,6 +128,16 @@
 
 <script>
 
+	document.querySelector("#modifyCancelButton").addEventListener("click", function() {
+		document.querySelector("#modifyButton").removeAttribute("data-bs-toggle", "modal");
+		document.querySelector("#modifyButton").removeAttribute("data-bs-target", "#modifyModal");
+	});
+
+	document.querySelector("#modifyCloseButton").addEventListener("click", function() {
+		document.querySelector("#modifyButton").removeAttribute("data-bs-toggle", "modal");
+		document.querySelector("#modifyButton").removeAttribute("data-bs-target", "#modifyModal");
+	});
+	
 	document.querySelector(`#modifyForm input[name="files"]`).addEventListener("change", function() {
 		const textDiv = document.querySelector("#addFileInputText");
 		textDiv.innerText = "";
@@ -149,7 +159,7 @@
 	});
 
 	document.querySelector("#modifyButton").addEventListener("click", function(e) {
-		// 공백("  ")인 경우에도 입력값 들어가도록 검증
+		// 공백("  ")인 경우에도 입력값 들어가지 않도록 검증
 		// submit 진행 중지
 		e.preventDefault();
 		
