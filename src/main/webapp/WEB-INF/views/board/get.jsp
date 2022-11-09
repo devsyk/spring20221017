@@ -8,15 +8,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Insert title here</title>
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
-	crossorigin="anonymous">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-	integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
-	crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 	<my:navBar></my:navBar>
@@ -30,7 +23,7 @@
 						<c:param name="id" value="${board.id }"></c:param>
 					</c:url>
 					<a class="btn btn-warning" href="${modifyLink }"> 
-					<i class="fa-solid fa-pen-to-square"></i>
+						<i class="fa-solid fa-pen-to-square"></i>
 					</a>
 				</h1>
 
@@ -40,7 +33,9 @@
 				</div>
 				<div class="mb-3">
 					<label class="form-label">본문</label>
-					<textarea class="form-control" rows="5" readonly>${board.content }</textarea>
+					<textarea class="form-control" rows="5" readonly>
+						${board.content }
+					</textarea>
 				</div>
 				<%-- 이미지 출력 --%>
 				<div>
@@ -89,7 +84,9 @@
 				<input type="hidden" id="boardId" value="${board.id }"> 
 				<div class="input-group">
 					<input type="text" class="form-control" id="replyInput1">
-					<button class="btn btn-outline-secondary" id="replySendButton1"><i class="fa-solid fa-reply"></i></button>
+					<button class="btn btn-outline-secondary" id="replySendButton1">
+						<i class="fa-solid fa-reply"></i>
+					</button>
 				</div>				
 			</div>
 		</div>
@@ -100,19 +97,20 @@
 				</div>
 			</div>
 		</div>
-	</div>	
+	</div>
 
 	<%-- 댓글 삭제 확인 모달 --%>
 	<!-- Modal -->
-	<div class="modal fade" id="removeReplyConfirmModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="removeReplyConfirmModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h1 class="modal-title fs-5" id="exampleModalLabel">댓글 삭제 확인</h1>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<div class="modal-body">댓글을 삭제하시겠습니까?</div>
+				<div class="modal-body">
+					댓글을 삭제하시겠습니까?
+				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 					<button type="button" data-bs-dismiss="modal" id="removeConfirmModalSubmitButton" class="btn btn-danger">삭제</button>
@@ -123,8 +121,7 @@
 
 	<%-- 댓글 수정 모달 --%>
 	<!-- Modal -->
-	<div class="modal fade" id="modifyReplyFormModal" tabindex="-1"
-		aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade" id="modifyReplyFormModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -142,11 +139,8 @@
 		</div>
 	</div>
 
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
-		integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
-		crossorigin="anonymous"></script>
-	<script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<script>
 	const ctx = "${pageContext.request.contextPath}";
 	
 	listReply();
