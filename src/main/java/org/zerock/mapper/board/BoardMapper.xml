@@ -5,6 +5,11 @@
   
 <mapper namespace="org.zerock.mapper.board.BoardMapper">
 	
+	<delete id="deleteFileByBoardId">
+		DELETE FROM File
+		WHERE boardId = #{id}
+	</delete>
+	
 	<insert id="insertFile">
 		INSERT INTO File (boardId, name)
 		VALUES (#{id}, #{fileName})
