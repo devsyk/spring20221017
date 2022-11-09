@@ -41,11 +41,19 @@
 									<c:url value="/board/get" var="getLink">
 										<c:param name="id" value="${board.id }"></c:param>
 									</c:url>
+									<%-- 댓글 수 출력 --%>
 									<a href="${getLink }">${board.title }</a>
 									<c:if test="${board.countReply > 0 }">
 										<span class="badge rounded-pill text-bg-light">
 											<i class="fa-regular fa-comment-dots"></i>
 											${board.countReply }
+										</span>
+									</c:if>
+									<%-- 파일 수 출력 --%>
+									<c:if test="${board.countFile > 0 }">
+										<span class="badge rounded-pill text-bg-light">
+											<i class="fa-sharp fa-solid fa-link"></i>
+											${board.countFile }
 										</span>
 									</c:if>
 								</td>

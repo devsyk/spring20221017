@@ -72,3 +72,29 @@ CREATE TABLE File (
 DESC File;
 
 SELECT * FROM File ORDER BY 1 DESC;
+
+-- 여러 파일이 있는 게시물 조회
+	SELECT
+		b.id,
+		b.title,
+		b.content,
+		b.writer,
+		b.inserted,
+		f.name fileName
+	FROM
+		Board b LEFT JOIN File f ON b.id = f.boardId
+	WHERE
+		b.id = 1029;
+
+-- 댓글 수, 파일 수가 결과로 같이 나오는 Board Table 조회 쿼리 작성
+	SELECT 
+		b.id,
+		b.title,
+		b.writer,
+		b.inserted,
+        COUNT(DISTINCT r.id) countReply, -- id 중복되어 나오지 않도록 DISTINCT 사용
+        COUNT(DISTINCT f.id) countFile
+	FROM Board b LEFT JOIN Reply r ON b.id = r.boardId
+                 LEFT JOIN File f ON b.id = f.boardId
+    GROUP BY b.id
+	ORDER BY b.id DESC;
