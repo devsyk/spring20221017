@@ -33,9 +33,7 @@
 				</div>
 				<div class="mb-3">
 					<label class="form-label">본문</label>
-					<textarea class="form-control" rows="5" readonly>
-						${board.content }
-					</textarea>
+					<textarea class="form-control" rows="5" readonly>${board.content }</textarea>
 				</div>
 				<%-- 이미지 출력 --%>
 				<div>

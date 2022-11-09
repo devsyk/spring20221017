@@ -30,11 +30,11 @@
 					<!-- .mb-3*4>label.form-label+input.form-control -->
 					<div class="mb-3">
 						<label for="" class="form-label">제목</label>
-						<input type="text" name="title" class="form-control" value="${board.title }">
+						<input id="titleInput" required="required" type="text" name="title" class="form-control" value="${board.title }">
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">본문</label>
-						<textarea rows="5" name="content" class="form-control">${board.content }</textarea>
+						<textarea id="contentInput" required="required" rows="5" name="content" class="form-control">${board.content }</textarea>
 					</div>
 					<%-- 이미지 출력 --%>
 					<div class="mb-3">
@@ -63,14 +63,14 @@
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">작성자</label>
-						<input type="text" name="writer" class="form-control" value="${board.writer }">
+						<input id="writerInput" required="required" type="text" name="writer" class="form-control" value="${board.writer }">
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">작성일시</label>
 						<input type="text" class="form-control" value="${board.inserted }" readonly>
 					</div>
 				</form>
-				<input class="btn btn-warning" type="submit" value="수정" data-bs-toggle="modal" data-bs-target="#modifyModal">
+				<input id="modifyButton" class="btn btn-warning" type="submit" value="수정">
 				<input class="btn btn-danger" type="submit" value="삭제" data-bs-toggle="modal" data-bs-target="#removeModal">
 
 				<c:url value="/board/remove" var="removeLink"/>
@@ -94,7 +94,7 @@
 					수정하시겠습니까?
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+					<button id="modifyCancelButton" type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 					<button id="modifyConfirmButton" type="button" class="btn btn-primary">확인</button>
 				</div>
 			</div>
@@ -123,6 +123,32 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
 <script>
+	document.querySelector("#modifyButton").addEventListener("click", function(e) {
+		// 공백("  ")인 경우에도 입력값 들어가도록 검증
+		// submit 진행 중지
+		e.preventDefault();
+		
+		let titleInput = document.querySelector("#titleInput");
+		let contentInput = document.querySelector("#contentInput");	
+		let writerInput = document.querySelector("#writerInput");
+		let modifyButton = document.querySelector("#modifyButton");
+				
+		// 필수 입력값이 모두 있는 경우에만 submit
+		if (titleInput.value.trim() != "" 
+				&& contentInput.value.trim() != "" 
+				&& writerInput.value.trim() != "") {
+			modifyButton.setAttribute("data-bs-toggle", "modal");
+			modifyButton.setAttribute("data-bs-target", "#modifyModal");
+			modifyButton.click();
+		} 
+		// 필수 입력값이 없는 경우, 해당 입력창으로 커서 이동
+		else {
+			if (titleInput.value.trim() == "" )  titleInput.focus();
+			else if (contentInput.value.trim() == "" )  contentInput.focus();
+			else if (writerInput.value.trim() == "" )  writerInput.focus();
+		}
+	});
+	
 	//수정확인 버튼 클릭하면 수정 form 전송
 	document.querySelector("#modifyConfirmButton").addEventListener("click", function() {
 		document.querySelector("#modifyForm").submit();
