@@ -15,6 +15,9 @@
     background-color: #dc3545;
     border-color: #dc3545;
 }
+#addFileInputText {
+	color : #dc3545;
+}
 </style>
 </head>
 <body>
@@ -60,6 +63,7 @@
 					<div class="mb-3">
 						<label for="" class="form-label">파일 추가</label>
 						<input multiple type="file" accept="image/*" class="form-control" name="files">
+						<div class="form-text" id="addFileInputText"></div>
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">작성자</label>
@@ -123,6 +127,27 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
 <script>
+
+	document.querySelector(`#modifyForm input[name="files"]`).addEventListener("change", function() {
+		const textDiv = document.querySelector("#addFileInputText");
+		textDiv.innerText = "";
+		
+		let ok = false;
+		
+		// input:file 에서 선택한 파일명들
+		const files = document.querySelector(`#modifyForm input[name="files"]`).files;
+		
+		// #modifyForm input[name="removeFiles"] 의 value들
+		const removeFileChecks = document.querySelectorAll(`#modifyForm input[name="removeFiles"]`);
+		
+		// 비교해서 중복되면 ok = false
+		ok = Array.from(removeFileChecks).every((check) => Array.from(files).every((file) => file.name != check.value))
+
+		if (!ok) {
+			textDiv.innerText = "중복된 파일명이 있습니다.";
+		}
+	});
+
 	document.querySelector("#modifyButton").addEventListener("click", function(e) {
 		// 공백("  ")인 경우에도 입력값 들어가도록 검증
 		// submit 진행 중지
