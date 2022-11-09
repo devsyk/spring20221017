@@ -30,6 +30,14 @@
 						<label for="" class="form-label">본문</label>
 						<textarea rows="5" name="content" class="form-control">${board.content }</textarea>
 					</div>
+					<%-- 이미지 출력 --%>
+					<div>
+						<c:forEach items="${board.fileName }" var="name">
+							<div>
+								<img class="img-fluid img-thumbnail" src="/image/${board.id }/${name}" alt="">
+							</div>
+						</c:forEach>		
+					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">작성자</label>
 						<input type="text" name="writer" class="form-control" value="${board.writer }">
