@@ -146,11 +146,13 @@ public class BoardService {
 		
 		File[] listFiles = folder.listFiles();
 		
-		for (File file : listFiles) {
-			file.delete();
+		if (listFiles != null) {
+			for (File file : listFiles) {
+				file.delete();
+			}
+			folder.delete();
 		}
 		
-		folder.delete();
 
 		// DB에서 파일 정보 삭제
 		boardMapper.deleteFileByBoardId(id);
