@@ -1,9 +1,6 @@
 package org.zerock.service.board;
 
-import java.io.File;
 import java.util.List;
-
-import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,7 +12,11 @@ import org.zerock.domain.board.PageInfo;
 import org.zerock.mapper.board.BoardMapper;
 import org.zerock.mapper.board.ReplyMapper;
 
+import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @Service
 @Transactional
@@ -30,36 +31,24 @@ public class BoardService {
 	@Autowired
 	private S3Client s3Client;
 	
-	@Value("aws.s3.bucket")
+	@Value("${aws.s3.bucket}")
 	private String bucketName;
 	
 	public int register(BoardDto board, MultipartFile[] files) {
-		// DB에 게시물 정보 저장
-		int cnt = boardMapper.insert(board);
+		int boardId = board.getId();
 		
 		for (MultipartFile file : files) {
-			if(file != null && file.getSize() > 0) {
+			if (file != null && file.getSize() > 0) {
 				// DB에 파일 정보 저장
-				boardMapper.insertFile(board.getId(), file.getOriginalFilename());
+				boardMapper.insertFile(boardId, file.getOriginalFilename());
 				
-				// 저장소에 실제 파일 저장
-				// boardId 이름의 새 폴더 만들기
-				File folder = new File("C:\\Users\\user\\Desktop\\study\\upload\\prj1\\board\\" + board.getId());
-				folder.mkdirs();
-				
-				File dest = new File(folder, file.getOriginalFilename());
-				
-				try {
-					file.transferTo(dest);
-				} catch (Exception e) {
-					// @Transactional은 RuntimeException에서만 rollback 됨
-					e.printStackTrace();
-					throw new RuntimeException(e);
-				}
+				// S3에 실제 파일 저장
+				uploadFile(boardId, file);
 			}
 		}
-
-		return cnt;
+		
+		// DB에 게시물 정보 저장
+		return boardMapper.insert(board);
 	}
 
 	public List<BoardDto> listBoard(int page, String type, String keyword, PageInfo pageInfo) {
@@ -109,11 +98,8 @@ public class BoardService {
 				// DB(File 테이블)에서 삭제할 파일 정보 삭제
 				boardMapper.deleteFileByBoardIdAndFileName(boardId, fileName);
 				
-				// 저장소에 실제 파일 삭제
-				String path = "C:\\Users\\user\\Desktop\\study\\upload\\prj1\\board\\" + boardId + "\\" + fileName;
-				File file = new File(path); 
-				
-				file.delete();
+				// S3에서 실제 파일 삭제
+				deleteFile(boardId, fileName);
 			}
 		}
 		
@@ -128,50 +114,65 @@ public class BoardService {
 				// 추가 파일 정보 저장
 				boardMapper.insertFile(boardId, name);
 				
-				// 저장소에 실제 파일 저장
-				File folder = new File("C:\\Users\\user\\Desktop\\study\\upload\\prj1\\board\\" + board.getId());
-				folder.mkdirs();
-				
-				File dest = new File(folder, name);
-				
-				try {
-					file.transferTo(dest);
-				} catch (Exception e) {
-					// @Transactional은 RuntimeException에서만 rollback 됨
-					e.printStackTrace();
-					throw new RuntimeException(e);
-				}
+				// S3에 실제 파일 저장
+				uploadFile(boardId, file);
 			}
 		}
 		
-		// DB에 게시물 정보 수정
+		// DB의 게시물 정보 수정
 		return boardMapper.update(board);
 	}
 	
 	public int remove(int id) {
-		// 저장소에서 실제 파일 삭제
-		String path = "C:\\Users\\user\\Desktop\\study\\upload\\prj1\\board\\" + id;
-		File folder = new File(path);
-		
-		File[] listFiles = folder.listFiles();
-		
-		if (listFiles != null) {
-			for (File file : listFiles) {
-				file.delete();
+		BoardDto board = boardMapper.select(id);
+		List<String> fileNames = board.getFileName();
+				
+		if (fileNames != null) {
+			for (String fileName : fileNames) {
+				// DB에서 파일 정보 삭제
+				boardMapper.deleteFileByBoardId(id);
+
+				// S3에서 실제 파일 삭제
+				deleteFile(id, fileName);
 			}
-			folder.delete();
-		}
+		}	
 		
-
-		// DB에서 파일 정보 삭제
-		boardMapper.deleteFileByBoardId(id);
-
 		// 게시물 댓글 삭제
 		replyMapper.deleteByBoardId(id);
 				
 		// 게시물 삭제
 		return boardMapper.delete(id);
+	}
+	
+	/* 파일 업로드 - S3 */
+	private void uploadFile(int id, MultipartFile file) {
+		try {
+			String key = "prj1/board/" + id + "/" + file.getOriginalFilename();
 
+			PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+					.bucket(bucketName).key(key)
+					.acl(ObjectCannedACL.PUBLIC_READ)
+					.build();
+			
+			RequestBody requestBody = RequestBody.fromInputStream(file.getInputStream(), file.getSize());
+			
+			s3Client.putObject(putObjectRequest, requestBody);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+	
+	/* 파일 삭제 - S3 */
+	private void deleteFile(int id, String fileName) {
+		String key = "prj1/board/" + id + "/" + fileName;
+		
+		DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+				.bucket(bucketName).key(key)
+				.build();
+		
+		s3Client.deleteObject(deleteObjectRequest);
 	}
 	
 }
