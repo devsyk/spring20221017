@@ -6,6 +6,7 @@ import java.util.List;
 import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +14,8 @@ import org.zerock.domain.board.BoardDto;
 import org.zerock.domain.board.PageInfo;
 import org.zerock.mapper.board.BoardMapper;
 import org.zerock.mapper.board.ReplyMapper;
+
+import software.amazon.awssdk.services.s3.S3Client;
 
 @Service
 @Transactional
@@ -23,6 +26,12 @@ public class BoardService {
 	
 	@Autowired
 	private ReplyMapper replyMapper;
+	
+	@Autowired
+	private S3Client s3Client;
+	
+	@Value("aws.s3.bucket")
+	private String bucketName;
 	
 	public int register(BoardDto board, MultipartFile[] files) {
 		// DB에 게시물 정보 저장
