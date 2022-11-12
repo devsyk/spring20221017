@@ -24,10 +24,34 @@
 				<h1>회원 정보 수정</h1>
 				
 				<form id="form1" action="" method="post">
-					아이디 <input type="text" value="${member.id }" readonly> <br>
-					암호 <input type="text" value="${member.password }" name="password"> <br>
-					이메일 <input type="email" value="${member.email }" name="email"> <br>
-					가입일시 <input type="text" value="${member.inserted }" readonly> <br>
+					<div class="mb-3">
+						<label for="" class="form-label">
+							아이디 
+						</label>
+						<input class="form-control-plaintext" type="text" value="${member.id }" readonly>
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">
+							암호 
+						</label>
+						<input class="form-control" type="password" value="${member.password }" name="password">
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">
+							이메일 
+						</label>
+						<div class="input-group">
+							<input class="form-control" type="email" value="${member.email }" name="email">
+							<button type="button" class="btn btn-outline-secondary">중복확인</button>
+						</div>
+						<div class="form-text">확인 메시지....</div>
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">
+							가입일시 
+						</label>
+						<input class="form-control-plaintext" type="text" value="${member.inserted }" readonly>
+					</div>
 					<input type="hidden" name="oldPassword">
 				</form>
 
@@ -37,8 +61,8 @@
 					<input type="hidden" name="oldPassword">
 				</form>
 				
-				<input type="submit" value="수정" data-bs-toggle="modal" data-bs-target="#modifyModal">
-				<input type="submit" value="탈퇴" data-bs-toggle="modal" data-bs-target="#removeModal">
+				<input class="btn btn-warning" type="submit" value="수정" data-bs-toggle="modal" data-bs-target="#modifyModal">
+				<input class="btn btn-danger" type="submit" value="탈퇴" data-bs-toggle="modal" data-bs-target="#removeModal">
 			</div>
 		</div>
 	</div>

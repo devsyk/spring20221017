@@ -20,10 +20,40 @@
 				<h1>회원가입</h1>
 				
 				<form action="" method="post">
-					아이디<input type="text" name="id"><br>
-					암호<input type="text" name="id"><br>
-					이메일<input type="text" name="id"><br>					
-					<input type="submit" value="가입">
+					<div class="mb-3">
+						<label for="" class="form-label">
+							아이디
+						</label>
+						<div class="input-group">
+							<input class="form-control" type="text" name="id">
+							<button class="btn btn-outline-secondary" type="button">중복확인</button>
+						</div>
+						<div class="form-text">어떤 메시지....</div>
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">
+							암호
+						</label>
+						<input class="form-control" type="password" name="password">
+						<div class="form-text">암호 확인 결과...</div>
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">
+							암호 확인
+						</label>
+						<input class="form-control" type="password">
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">
+						이메일
+						</label>
+						<div class="input-group">
+							<input class="form-control" type="email" name="email">
+							<button type="button" class="btn btn-outline-secondary">중복확인</button>
+						</div>
+						<div class="form-text">확인 메시지....</div>
+					</div>
+					<input class="btn btn-primary" type="submit" value="가입">
 				</form>
 			</div>
 		</div>
