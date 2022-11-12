@@ -98,3 +98,11 @@ SELECT * FROM File ORDER BY 1 DESC;
                  LEFT JOIN File f ON b.id = f.boardId
     GROUP BY b.id
 	ORDER BY b.id DESC;
+
+-- Member 테이블 만들기
+CREATE TABLE Member (
+	id VARCHAR(255) PRIMARY KEY,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    inserted DATETIME DEFAULT NOW()
+);
