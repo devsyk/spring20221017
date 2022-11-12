@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-	<my:navBar active="memberInfo"></my:navBar>
+	<my:navBar></my:navBar>
 	<div class="container-md">
 		<div class="row">
 			<div class="col">
@@ -21,17 +21,14 @@
 						${message }
 					</div>
 				</c:if>
-				<h1>
-					회원 정보
-					<c:url value="/member/modify" var="modifyLink">
-						<c:param value="${member.id }" name="id"></c:param>
-					</c:url>
-					<a href="${modifyLink }">수정</a>
-				</h1>
-				아이디 <input type="text" value="${member.id }" readonly> <br>
-				암호 <input type="text" value="${member.password }" readonly> <br>
-				이메일 <input type="text" value="${member.email }" readonly> <br>
-				가입일시 <input type="text" value="${member.inserted }" readonly> <br>
+				<h1>회원 정보 수정</h1>
+				<form action="" method="post">
+					아이디 <input type="text" value="${member.id }" readonly> <br>
+					암호 <input type="text" value="${member.password }" name="password"> <br>
+					이메일 <input type="email" value="${member.email }" name="email"> <br>
+					가입일시 <input type="text" value="${member.inserted }" readonly> <br>
+					<input type="submit" value="수정">
+				</form>
 			</div>
 		</div>
 	</div>
