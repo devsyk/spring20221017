@@ -56,4 +56,12 @@ public class MemberController {
 			return "redirect:/member/modify";
 		}
 	}
+	
+	@PostMapping("remove")
+	public String remove(String id, RedirectAttributes rttr) {
+		int cnt = service.remove(id);
+		
+		rttr.addAttribute("message", "회원 탈퇴하였습니다.");
+		return "redirect:/board/list";
+	}
 }

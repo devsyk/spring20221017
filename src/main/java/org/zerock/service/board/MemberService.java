@@ -14,12 +14,10 @@ public class MemberService {
 	private MemberMapper mapper;
 
 	public int insert(MemberDto member) {
-		
 		return mapper.insert(member);
 	}
 
 	public List<MemberDto> list() {
-		
 		return mapper.selectAll();
 	}
 
@@ -37,5 +35,9 @@ public class MemberService {
 		}
 		
 		return cnt;
+	}
+
+	public int remove(String id) {
+		return mapper.deleteById(id);
 	}
 }

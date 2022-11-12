@@ -22,12 +22,19 @@
 					</div>
 				</c:if>
 				<h1>회원 정보 수정</h1>
+				
 				<form action="" method="post">
 					아이디 <input type="text" value="${member.id }" readonly> <br>
 					암호 <input type="text" value="${member.password }" name="password"> <br>
 					이메일 <input type="email" value="${member.email }" name="email"> <br>
 					가입일시 <input type="text" value="${member.inserted }" readonly> <br>
 					<input type="submit" value="수정">
+				</form>
+				
+				<c:url value="/member/remove" var="removeUrl" />
+				<form action="${removeUrl }" method="post">
+					<input type="hidden" name="id" value="${member.id }">
+					<input type="submit" value="탈퇴">
 				</form>
 			</div>
 		</div>
