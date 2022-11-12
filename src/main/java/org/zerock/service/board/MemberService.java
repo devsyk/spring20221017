@@ -17,4 +17,14 @@ public class MemberService {
 		
 		return mapper.insert(member);
 	}
+
+	public List<MemberDto> list() {
+		
+		return mapper.selectAll();
+	}
+
+	public MemberDto getById(String id) {
+		return mapper.selectById(id);
+	}
+
 }

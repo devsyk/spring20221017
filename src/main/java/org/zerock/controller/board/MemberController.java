@@ -32,4 +32,14 @@ public class MemberController {
 		rttr.addFlashAttribute("message", "회원가입 되었습니다.");
 		return "redirect:/board/list";
 	}
+	
+	@GetMapping("list")
+	public void list(Model model) {
+		model.addAttribute("memberList", service.list());
+	}
+	
+	@GetMapping("info")
+	public void info(String id, Model model) {
+		model.addAttribute("member", service.getById(id));
+	}
 }

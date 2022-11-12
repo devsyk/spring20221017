@@ -106,3 +106,13 @@ CREATE TABLE Member (
     email VARCHAR(255) NOT NULL UNIQUE,
     inserted DATETIME DEFAULT NOW()
 );
+DESC Member;
+SELECT * FROM Member ORDER BY inserted DESC;
+
+SELECT 
+	id,
+	'숨김' password,
+	email,
+	inserted
+FROM Member
+ORDER BY id ;
