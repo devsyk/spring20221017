@@ -68,7 +68,7 @@
 					<input type="hidden" name="oldPassword">
 				</form>
 				
-				<input class="btn btn-warning" type="submit" value="수정" data-bs-toggle="modal" data-bs-target="#modifyModal">
+				<input disabled id="modifyModalButton1" class="btn btn-warning" type="submit" value="수정" data-bs-toggle="modal" data-bs-target="#modifyModal">
 				<input class="btn btn-danger" type="submit" value="탈퇴" data-bs-toggle="modal" data-bs-target="#removeModal">
 			</div>
 		</div>
@@ -116,6 +116,20 @@
 <script>
 	const ctx = "${pageContext.request.contextPath}";
 	
+	<%-- 회원 정보 검증 --%>
+	let availableEmail = true;
+	let availablePassword = true;
+	
+	// 수정 버튼 활성화
+	function enableModifyButton() {
+		const button = document.querySelector("#modifyModalButton1");
+		if (availablePassword && availableEmail) {
+			button.removeAttribute("disabled")
+		} else {
+			button.setAttribute("disabled", "");
+		}
+	}	
+	
 	<%-- 이메일 중복 확인 --%>
 	const emailInput1 = document.querySelector("#emailInput1");
 	const emailExistButton1 = document.querySelector("#emailExistButton1");
@@ -123,21 +137,26 @@
 	
 	// 이메일 input의 값이 변경되었을 때
 	emailInput1.addEventListener("keyup", function() {
+		availableEmail = false;
 		const oldValue = emailInput1.dataset.oldValue;
 		const newValue = emailInput1.value;
 		
 		if (oldValue == newValue) {
 			emailText1.innerText = "";
 			emailExistButton1.setAttribute("disabled", "disabled");
+			availableEmail = true;
 		} else {
 			// 기존 이메일과 다르면 중복 확인 버튼 활성화
 			emailText1.innerText = "이메일 중복확인을 해주세요.";
 			emailExistButton1.removeAttribute("disabled");
 		}
+		
+		enableModifyButton();
 	});
 	
 	// 이메일 중복 확인 버튼 클릭
 	emailExistButton1.addEventListener("click", function() {
+		availableEmail = false;
 		const email = emailInput1.value;
 		
 		fetch(`\${ctx}/member/existEmail`, {
@@ -150,6 +169,11 @@
 			.then(res => res.json())
 			.then(data => {
 				emailText1.innerText = data.message;
+				
+				if (data.status == "not exist") {
+					availableEmail = true;
+					enableModifyButton();
+				}
 			});
 	});
 	
@@ -162,12 +186,16 @@
 	passwordInput2.addEventListener("keyup", matchPassword);
 	
 	function matchPassword() {
+		availablePassword = false;
+		
 		if(passwordInput1.value == passwordInput2.value) {
 			passwordText1.innerText = "패스워드가 일치합니다.";
+			availablePassword = true;
 		} else {
 			passwordText1.innerText = "패스워드가 일치하지 않습니다.";
 		}
 		
+		enableModifyButton();
 	}
 	
 	<%-- 탈퇴 모달 확인 버튼 눌렀을 때 --%>

@@ -53,7 +53,7 @@
 						</div>
 						<div id="emailText1" class="form-text">이메일 중복확인을 해주세요.</div>
 					</div>
-					<input disabled class="btn btn-primary" type="submit" value="가입">
+					<input disabled id="submitButton1" class="btn btn-primary" type="submit" value="가입">
 				</form>
 			</div>
 		</div>
@@ -62,7 +62,36 @@
 <script>
 	const ctx = "${pageContext.request.contextPath}";
 	
+	<%-- 가입 정보 검증 --%>
+	let availableId = false; // 사용가능한 아이디
+	let availableEmail = false; // 사용가능한 이메일
+	let availablePassword = false; // 사용가능한 패스워드
+	
+	// 가입 버튼 활성화
+	function enableSubmitButton() {
+		const button = document.querySelector("#submitButton1");
+		if (availableId && availableEmail && availablePassword) {
+			button.removeAttribute("disabled")
+		} else {
+			button.setAttribute("disabled", "");
+		}
+	}
+	
+	// 아이디 input 변경시 submit 버튼 비활성화
+	document.querySelector("#userIdInput1").addEventListener("keyup", function() {
+		availableId = false;
+		enableSubmitButton();
+	});
+	
+	// 이메일 input 변경시 submit 버튼 비활성화
+	document.querySelector("#emailInput1").addEventListener("keyup", function() {
+		availableEmail = false;
+		enableSubmitButton();
+	});
+
+	<%-- 이메일 중복 확인 --%>
 	document.querySelector("#emailExistButton1").addEventListener("click", function() {
+		availableEmail = false;
 		const email = document.querySelector("#emailInput1").value;
 		
 		fetch(ctx + "/member/existEmail/", {
@@ -75,16 +104,28 @@
 			.then(res => res.json())
 			.then(data => {
 				document.querySelector("#emailText1").innerText = data.message;
+				
+				if (data.status == "not exist") {
+					availableEmail = true;
+					enableSubmitButton();
+				}
 			});
 	});
-
+	
+	<%-- 아이디 중복 확인 --%>
 	document.querySelector("#userIdExistButton1").addEventListener("click", function() {
+		availableId = false;
 		const userId = document.querySelector("#userIdInput1").value;
 		
 		fetch(ctx + "/member/existId/" + userId)
 			.then(res => res.json())
 			.then(data => {
 				document.querySelector("#userIdText1").innerText = data.message;
+				
+				if (data.status == "not exist") {
+					availableId = true;
+					enableSubmitButton();
+				}
 			});
 	});
 
@@ -97,15 +138,20 @@
 	passwordInput2.addEventListener("keyup", matchPassword);
 	
 	function matchPassword() {
+		availablePassword = false;
 		const value1 = passwordInput1.value;
 		const value2 = passwordInput2.value;
 		
 		if (value1 == value2) {
 			passwordText1.innerText = "패스워드가 일치합니다.";
+			availablePassword = true;
 		} else {
 			passwordText1.innerText = "패스워드가 일치하지 않습니다.";
 		}
+		
+		enableSubmitButton();
 	}
+	
 </script>
 </body>
 </html>
