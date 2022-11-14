@@ -1,4 +1,6 @@
-package org.zerock.domain.board;
+package org.zerock.domain.member;
+
+import java.time.LocalDateTime;
 
 import lombok.Data;
 
@@ -7,4 +9,6 @@ public class MemberDto {
 	private String id;
 	private String email;
 	private String password;
+	
+	private LocalDateTime inserted;
 }

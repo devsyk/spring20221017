@@ -1,4 +1,4 @@
-package org.zerock.controller.board;
+package org.zerock.controller.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.zerock.domain.board.MemberDto;
-import org.zerock.service.board.MemberService;
+import org.zerock.domain.member.MemberDto;
+import org.zerock.service.member.MemberService;
 
 @Controller
 @RequestMapping("member")
