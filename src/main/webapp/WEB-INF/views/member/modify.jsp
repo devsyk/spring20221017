@@ -48,10 +48,10 @@
 							이메일 
 						</label>
 						<div class="input-group">
-							<input id="emailInput1" class="form-control" type="email" value="${member.email }" name="email">
-							<button id="emailExistButton1" type="button" class="btn btn-outline-secondary">중복확인</button>
+							<input id="emailInput1" class="form-control" type="email" value="${member.email }" name="email" data-old-value="${member.email }">
+							<button disabled id="emailExistButton1" type="button" class="btn btn-outline-secondary">중복확인</button>
 						</div>
-						<div id="emailText1" class="form-text">이메일 중복확인을 해주세요.</div>
+						<div id="emailText1" class="form-text"></div>
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">
@@ -116,10 +116,31 @@
 <script>
 	const ctx = "${pageContext.request.contextPath}";
 	
-	document.querySelector("#emailExistButton1").addEventListener("click", function() {
-		const email = document.querySelector("#emailInput1").value;
+	<%-- 이메일 중복 확인 --%>
+	const emailInput1 = document.querySelector("#emailInput1");
+	const emailExistButton1 = document.querySelector("#emailExistButton1");
+	const emailText1 = document.querySelector("#emailText1");
+	
+	// 이메일 input의 값이 변경되었을 때
+	emailInput1.addEventListener("keyup", function() {
+		const oldValue = emailInput1.dataset.oldValue;
+		const newValue = emailInput1.value;
 		
-		fetch(ctx + "/member/existEmail/", {
+		if (oldValue == newValue) {
+			emailText1.innerText = "";
+			emailExistButton1.setAttribute("disabled", "disabled");
+		} else {
+			// 기존 이메일과 다르면 중복 확인 버튼 활성화
+			emailText1.innerText = "이메일 중복확인을 해주세요.";
+			emailExistButton1.removeAttribute("disabled");
+		}
+	});
+	
+	// 이메일 중복 확인 버튼 클릭
+	emailExistButton1.addEventListener("click", function() {
+		const email = emailInput1.value;
+		
+		fetch(`\${ctx}/member/existEmail`, {
 			method : "post",
 			headers : {
 				"Content-Type" : "application/json"
@@ -128,10 +149,10 @@
 		})
 			.then(res => res.json())
 			.then(data => {
-				document.querySelector("#emailText1").innerText = data.message;
+				emailText1.innerText = data.message;
 			});
 	});
-
+	
 	<%-- 패스워드 일치하는지 확인 --%>
 	const passwordInput1 = document.querySelector("#passwordInput1");
 	const passwordInput2 = document.querySelector("#passwordInput2");
