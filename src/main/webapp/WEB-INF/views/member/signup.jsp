@@ -65,7 +65,13 @@
 	document.querySelector("#emailExistButton1").addEventListener("click", function() {
 		const email = document.querySelector("#emailInput1").value;
 		
-		fetch(ctx + "/member/existEmail/" + email)
+		fetch(ctx + "/member/existEmail/", {
+			method : "post",
+			headers : {
+				"Content-Type" : "application/json"
+			},
+			body : JSON.stringify({email})
+		})
 			.then(res => res.json())
 			.then(data => {
 				document.querySelector("#emailText1").innerText = data.message;
