@@ -34,7 +34,14 @@
 						<label for="" class="form-label">
 							암호 
 						</label>
-						<input class="form-control" type="password" value="${member.password }" name="password">
+						<input id="passwordInput1" class="form-control" type="text" value="${member.password }" name="password">
+						<div id="passwordText1" class="form-text"></div>
+					</div>
+					<div class="mb-3">
+						<label for="" class="form-label">
+							암호 확인
+						</label>
+						<input id="passwordInput2" class="form-control" type="text">
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">
@@ -107,6 +114,23 @@
 	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script>
+	<%-- 패스워드 일치하는지 확인 --%>
+	const passwordInput1 = document.querySelector("#passwordInput1");
+	const passwordInput2 = document.querySelector("#passwordInput2");
+	const passwordText1 = document.querySelector("#passwordText1");
+	
+	passwordInput1.addEventListener("keyup", matchPassword);
+	passwordInput2.addEventListener("keyup", matchPassword);
+	
+	function matchPassword() {
+		if(passwordInput1.value == passwordInput2.value) {
+			passwordText1.innerText = "패스워드가 일치합니다.";
+		} else {
+			passwordText1.innerText = "패스워드가 일치하지 않습니다.";
+		}
+		
+	}
+	
 	<%-- 탈퇴 모달 확인 버튼 눌렀을 때 --%>
 	document.querySelector("#modalConfirmButton2").addEventListener("click", function() {
 		const form = document.forms.form2;
