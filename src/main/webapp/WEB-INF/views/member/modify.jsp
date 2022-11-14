@@ -48,10 +48,10 @@
 							이메일 
 						</label>
 						<div class="input-group">
-							<input class="form-control" type="email" value="${member.email }" name="email">
-							<button type="button" class="btn btn-outline-secondary">중복확인</button>
+							<input id="emailInput1" class="form-control" type="email" value="${member.email }" name="email">
+							<button id="emailExistButton1" type="button" class="btn btn-outline-secondary">중복확인</button>
 						</div>
-						<div class="form-text">확인 메시지....</div>
+						<div id="emailText1" class="form-text">이메일 중복확인을 해주세요.</div>
 					</div>
 					<div class="mb-3">
 						<label for="" class="form-label">
@@ -114,6 +114,18 @@
 	
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script>
+	const ctx = "${pageContext.request.contextPath}";
+	
+	document.querySelector("#emailExistButton1").addEventListener("click", function() {
+		const email = document.querySelector("#emailInput1").value;
+		
+		fetch(ctx + "/member/existEmail/" + email)
+			.then(res => res.json())
+			.then(data => {
+				document.querySelector("#emailText1").innerText = data.message;
+			});
+	});
+
 	<%-- 패스워드 일치하는지 확인 --%>
 	const passwordInput1 = document.querySelector("#passwordInput1");
 	const passwordInput2 = document.querySelector("#passwordInput2");

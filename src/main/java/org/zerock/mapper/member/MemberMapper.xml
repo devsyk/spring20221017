@@ -28,6 +28,16 @@
 		WHERE id = #{id}
 	</select>
 
+	<select id="selectByEmail" resultType="org.zerock.domain.member.MemberDto">
+		SELECT 
+			id,
+			password,
+			email,
+			inserted
+		FROM Member
+		WHERE email = #{email}
+	</select>
+
 	<select id="selectAll" resultType="org.zerock.domain.member.MemberDto">
 		SELECT 
 			id,

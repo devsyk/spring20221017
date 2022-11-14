@@ -11,6 +11,8 @@ public interface MemberMapper {
 	List<MemberDto> selectAll();
 
 	MemberDto selectById(String id);
+	
+	MemberDto selectByEmail(String email);
 
 	int update(MemberDto member);
 
